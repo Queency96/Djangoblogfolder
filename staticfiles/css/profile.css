@@ -1,0 +1,134 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f4f5fa;
+}
+
+.profile-header {
+  background: dodgerblue;
+  color: white;
+  padding: 40px 0;
+  text-align: center;
+}
+
+.profile-header img {
+  border-radius: 50%;
+  border: 5px solid white;
+  width: 150px;
+  height: 150px;
+}
+
+.profile-header h1 {
+  font-weight: 600;
+  margin-top: 20px;
+}
+
+.profile-header p {
+  font-size: 18px;
+  color: white;
+}
+
+.profile-content {
+  padding: 30px;
+}
+
+.profile-content .card {
+  background: white;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.profile-content .card h5 {
+  font-weight: 600;
+}
+
+.badge-custom {
+  background-color: lightgreen;
+  color: white;
+  font-size: 16px;
+  padding: 5px 15px;
+  border-radius: 20px;
+}
+
+.social-links a {
+  margin: 0 10px;
+  color: white;
+  font-size: 24px;
+}
+
+.related-student-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid dodgerblue;
+}
+
+.btn-custom {
+  background-color: dodgerblue;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+}
+
+.btn-custom:hover {
+  background-color: #0074cc;
+}
+
+/* About Us Projects and Follow Me Sections */
+.project-list ul {
+  padding-left: 0;
+  list-style-type: none;
+}
+
+.project-list ul li {
+  margin-bottom: 10px;
+}
+
+.follow-links a {
+  display: inline-block;
+  margin-right: 10px;
+  color: white;
+  font-size: 24px;
+  background-color: dodgerblue;
+  padding: 10px;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+}
+
+.follow-links a:hover {
+  background-color: #0074cc;
+}
+
+/* Flexbox for Project Layout */
+.project-item {
+  text-align: center;
+  padding: 10px;
+}
+
+.project-item img {
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.project-item h6 {
+  font-weight: 600;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.project-list {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.project-item .btn {
+  margin-top: 10px;
+  background-color: dodgerblue;
+  color: white;
+}
