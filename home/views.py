@@ -21,7 +21,7 @@ def contact_us(request):
         email = request.POST.get('email')
         phone_number = request.POST.get('phone')
         message1 = request.POST.get('message')
-        message = f"From: {name}" " \n" + " \n" + message1 + "\n" + "\n" + f"Call on:{phone_number}"
+        message = f"From: {name} Email: {email}" " \n" + " \n" + message1 + "\n" + "\n" + f"Call on:{phone_number}"
         
         # Check if all fields are filled
         if name and email and phone_number and message1:

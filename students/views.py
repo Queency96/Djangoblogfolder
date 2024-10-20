@@ -28,6 +28,7 @@ def student_list(request):
 
         # Prepare the data for each student
         student_data.append({
+            'type': student.student_type,
             'first_name': student.first_name,
             'last_name': student.last_name,
             'program': program.courses if program else 'N/A',  # Show the program's course or N/A
@@ -46,6 +47,7 @@ def student_list(request):
     return render(request, 'blog/studentlist.html', context)
 
 
+
 def get_profile_from_student(request, student_id):
     # Get the student by id
     student = get_object_or_404(Student, id=student_id)
@@ -55,13 +57,13 @@ def get_profile_from_student(request, student_id):
         profile = student.student_profile  # Assumes Student_Profile has a OneToOneField with Student
     except Student_Profile.DoesNotExist:
         profile = None
-
-    # Get cohort groups the student is part of
+    
+        # Get cohort groups the student is part of
     cohort_groups = Cohort_Group.objects.filter(students=student)
     cohort = ', '.join([cohort.name for cohort in cohort_groups]) if cohort_groups.exists() else 'No Cohort'
 
     # Get all students in this student's cohorts, excluding the current student
-    members = Student.objects.filter(cohort_group__in=cohort_groups).exclude(id=student.id).distinct()  # Exclude the current student
+    members = Student.objects.filter(cohort_group__in = cohort_groups).exclude(id=student.id).distinct()  # Exclude the current student
 
     # Create a list to hold member data
     cohort_data = []
@@ -83,6 +85,7 @@ def get_profile_from_student(request, student_id):
         })
 
     context = {
+        'type':student.student_type,
         'username': student.username,
         'student': student,
         'status': student.status,

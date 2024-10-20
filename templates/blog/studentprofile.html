@@ -18,6 +18,7 @@
             <img src="{{ DP }}" alt="{{ student }}'s Profile Picture" class="profile-picture">
             <h1>{{ student.first_name }} {{ student.last_name }}</h1>
             <p>{{ status|yesno:"Active,Inactive" }} | {{ cohort }}</p>
+            <p>{{type}}</p>
             <span class="badge badge-custom">{{ rating }} Rating</span>
         </div>
     </section>
