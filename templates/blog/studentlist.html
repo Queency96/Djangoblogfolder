@@ -25,7 +25,7 @@
         </div>
     </section>
 
-    <section class="container mt-5 mb-5">
+    <section class="container mt-1 mb-5">
         <!-- Table -->
         <div class="table-responsive">
             <table class="table align-middle table-bordered table-hover mt-4">
@@ -64,6 +64,25 @@
                 </tbody>
             </table>
         </div>
+
+        <div class="pagination float-end">
+            <span class="step-links">
+                {% if students.has_previous %}
+                    <a href="?page=1" class="ms-2 text-decoration-none">&laquo; first</a>
+                    <a href="?page={{ students.previous_page_number }}" class="ms-2 text-decoration-none">previous</a>
+                {% endif %}
+        
+                <span class="current ms-2" >
+                    Page {{ students.number }} of {{ students.paginator.num_pages }}
+                </span>
+        
+                {% if students.has_next %}
+                    <a href="?page={{ students.next_page_number }}" class="ms-2 text-decoration-none">next</a>
+                    <a href="?page={{ students.paginator.num_pages }}" class="ms-2 text-decoration-none">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+
     </section>
 
     <!-- Add User Modal -->

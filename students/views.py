@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Student, Student_Profile, Cohort_Group, Program
+from django.core.paginator import Paginator
 
 def student_list(request):
     # Get all students
@@ -39,10 +40,14 @@ def student_list(request):
             'profile_id': student_id,  # Keep track of the student id for linking
             'profile_picture': profile.profile_picture.url if profile and profile.profile_picture else 'N/A',  # Handle profile picture if None
         })
+        
+    paginator = Paginator(student_data, 3)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
 
     # Pass the student data to the template
     context = {
-        'students': student_data
+        'students': page_obj
     }
     return render(request, 'blog/studentlist.html', context)
 
