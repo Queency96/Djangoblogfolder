@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ username }}'s Profile</title>
+    <title>{{ student.username }}'s Profile</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="{% static 'CSS/profile.css' %}">
@@ -15,11 +16,22 @@
     <!-- Profile Header -->
     <section class="profile-header">
         <div class="container text-center">
-            <img src="{{ DP }}" alt="{{ student }}'s Profile Picture" class="profile-picture">
+            {% if student.student_profile.profile_picture %}
+            <img src="{{ student.student_profile.profile_picture.url }}" alt="{{ student.first_name }} {{ student.last_name }}'s Profile Picture" class="profile-picture">
+            {% else %}
+            <img src="data:image/jpeg;base64,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" alt="{{ student.first_name }} {{ student.last_name }}'s Profile Picture" class="profile-picture">
+            {% endif %}
             <h1>{{ student.first_name }} {{ student.last_name }}</h1>
-            <p>{{ status|yesno:"Active,Inactive" }} | {{ cohort }}</p>
+            <p>{{ student.status|yesno:"Active,Inactive" }} | 
+            {% for cohort in student.cohort_group_set.all %}
+            {% if cohort %}
+            {{ cohort.name }}</p>
+            {% else %}
+            No Cohort
+            {% endif %}
+            {% endfor %}
             <p>{{type}}</p>
-            <span class="badge badge-custom">{{ rating }} Rating</span>
+            <span class="badge badge-custom">{{ student.student_profile.rating }} Rating</span>
         </div>
     </section>
 
@@ -32,42 +44,54 @@
                     <div class="card p-4">
                         <h5>About {{ student.first_name }}</h5>
                         <p>
-                            <strong>Bio:</strong> {{ bio }}
+                            <strong>Bio:</strong> {{ student.student_profile.bio }}
                         </p>
                         <p>
-                            <strong>Date of Birth:</strong> {{ DOB|date:"F j, Y" }} <br>
-                            <strong>Address:</strong> {{ address }} <br>
-                            <strong>Joined:</strong> {{ D_joined|date:"F j, Y" }}
+                            <strong>Date of Birth:</strong> {{ student.student_profile.DOB|date:"F j, Y" }} <br>
+                            <strong>Address:</strong> {{ student.student_profile.address }} <br>
+                            <strong>Joined:</strong> {{ student.student_profile.date_join|date:"F j, Y" }}
                         </p>
-                        <button class="btn btn-custom">Send Message</button>
+                        <button class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#exampleModal">Send Message</button>
                     </div>
                 </div>
 
                 <!-- Related Students (Cohort Members) -->
                 <div class="col-md-4">
                     <div class="card p-4">
-                        <h5>Related Students ({{ cohort }})</h5>
-                        <ul class="list-unstyled">
-                            {% if cohort_members %}
-                                {% for member in cohort_members %}
-                                <!-- Display cohort members excluding current student -->
-                                <li class="d-flex align-items-center mb-3">
-                                    <img src="{{ member.profile_picture }}" alt="{{ member.name }}'s Picture" width="80" height="80" class="related-student-img">
-                                    <div class="ms-3">
-                                        <h6 class="mb-0">{{ member.name }}</h6>
-                                        <small>{{ member.program }}</small>
-                                    </div>
-                                </li>
-                                {% endfor %}
-                            {% else %}
-                                <li>No related students found.</li>
-                            {% endif %}
-                        </ul>
+                        {% if student.cohort_group_set.all %}
+                            {% for related in student.cohort_group_set.all %}
+                                <h5>Related Students in {{ related.name }}</h5>
+                                <ul class="list-unstyled">
+                                    {% for member in related.students.all %}
+                                        {% if member != student %}
+                                            <li class="d-flex align-items-center mb-3">
+                                                {% if member.student_profile.profile_picture %}
+                                                    <img src="{{ member.student_profile.profile_picture.url }}" alt="{{ member.username }}'s Picture" width="80" height="80" class="related-student-img">
+                                                {% else %}
+                                                    <img src="path/to/default-image.jpg" alt="Default Picture" width="80" height="80" class="related-student-img">
+                                                {% endif %}
+                                                <div class="ms-3">
+                                                    <h6 class="mb-0">{{ member.first_name }} {{ member.last_name }}</h6>
+                                                    <small>
+                                                        {% for program in member.program_set.all %}
+                                                            {{ program.courses }}{% if not forloop.last %}, {% endif %}
+                                                        {% endfor %}
+                                                    </small>
+                                                </div>
+                                            </li>
+                                        {% endif %}
+                                    {% empty %}
+                                        <li>No related students found.</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endfor %}
+                        {% else %}
+                            <h5>Student has No cohort yet</h5>
+                        {% endif %}
                     </div>
                 </div>
-
+                
             </div>
-
             <!-- Projects and Follow Me Section -->
             <div class="row mt-4">
                 <div class="col-md-8">
@@ -87,7 +111,74 @@
             </div>
         </div>
     </section>
+  
+    <!-- Modal -->
+    <div class="modal modal-dialog-scrollable" data-bs-backdrop="static" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+            <h1 class="modal-title fs-5 text-white" id="exampleModalLabel">Message</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="">
+                    <div class="col-12 d-flex justify-content-center">
+                        <p class="form-label text-bg-primary rounded px-2 py-1">RECEIVER'S INFO</p>
+                    </div>
+                    <div class="mb-3 d-flex justify-content-between flex-row gap-2">
+                        <div class="col-6">
+                            <label for="recever_name" class="">Name</label>
+                            <input type="text" class="form-control" id="recever_name" name="recever_name" value="Da'Guy Olami">
+                        </div>
+                        <div class="col-6">
+                            <label for="recever_username" class="">Username</label>
+                            <input type="tel" class="form-control" id="recever_username" name="recever_username" value="Queency96">
+                        </div>
+                    </div>
+
+                    <div class="mb-3 d-flex justify-content-between gap-2">
+                        <div class="col-6">
+                            <label for="sender_email" class="form-label">E-mail</label>
+                        <input type="text" class="form-control" id="sender_email" name="sender_email" value="queency96@gmail.com">
+                        </div>
+                        <div class="col-6">
+                            <label for="phone" class="form-label">Phone</label>
+                        <input type="tel" class="form-control" id="phone" name="phone" value="08023956084">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="subject" class="form-label">Subject</label>
+                        <input type="text" class="form-control my-2" id="subject" name="subject" placeholder="Enter subject">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea class="form-control" id="message" name="message" id="message" placeholder="Message here..."></textarea>
+                    </div>
+                    <div class="col-12 d-flex justify-content-center">
+                        <p class="form-label text-bg-primary rounded px-2 py-1">SENDER'S INFO</p>
+                    </div>
+
+                    <div class="mb-3 d-flex justify-content-between flex-row gap-2">
+                        <div class="col-6">
+                            <label for="sender_name" class="">Name</label>
+                            <input type="text" class="form-control" id="sender_name" name="sender_name" placeholder="Enter your name">
+                        </div>
+                        <div class="col-6">
+                            <label for="sender_phone" class="">Phone</label>
+                            <input type="tel" class="form-control" id="sender_phone" name="sender_phone" placeholder="Enter phone No">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Send message</button>
+            </div>
+        </div>
+        </div>
+    </div>
 
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
 </body>
 </html>
