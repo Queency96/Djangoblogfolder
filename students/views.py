@@ -1,8 +1,17 @@
-from django.shortcuts import render, redirect
-from .models import Student, Student_Profile, Cohort_Group, Program
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Student
 from django.core.paginator import Paginator
 from django.core.mail import send_mail
 from django.contrib import messages
+from django.core.exceptions import ValidationError
+
+
+def mail_validator(value):
+    if '@' in value and '.com' in value:
+        return value
+    else:
+        raise ValidationError('Invalid email address')
+
 
 def student_list(request):   
     student_list = Student.objects.all()
@@ -16,41 +25,63 @@ def student_list(request):
     return render(request, 'blog/studentlist.html', context)
 
 
-
 def get_profile_from_student(request, student_id):   
-    student = Student.objects.get(id=student_id)  
+    student = get_object_or_404(Student, id=student_id)  
     context = {
-        'student' : student
+        'student': student
     }
     return render(request, 'blog/studentprofile.html', context)
 
-def message(request):
+
+def message(request, student_id):
+    student = get_object_or_404(Student, id=student_id)
     if request.method == 'POST':
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        phone_number = request.POST.get('phone')
-        message1 = request.POST.get('message')
+        # receiver's data
+        name = request.POST.get('receiver_name')
+        username = request.POST.get('receiver_username')
+        email = request.POST.get('receiver_email')
+        phone_number = request.POST.get('receiver_phone')
         
+        # Messages
+        subject = request.POST.get('subject')
+        pre_message = request.POST.get('message')
+        
+        # sender's data
+        sender_name = request.POST.get('sender_name')
+        sender_phone = request.POST.get('sender_phone')
+        sender_email = request.POST.get('sender_email')
+        
+        message = f"""        
+        Subject: {subject}
+        
+        {pre_message}
+        
+        From: {sender_name},                Phone: {sender_phone}
+        E-mail: {sender_email}
+        """
         
         # Check if all fields are filled
-        if name and email and phone_number and message1:
-            # Send email to the superuser admin
-            send_welcome_email(request, name, email, message)
-            messages.success(request, 'Your message has been sent successfully!')
-            return redirect('contact_us')  # Redirect after submission
+        if name and username and email and phone_number and sender_name and sender_phone and sender_email and pre_message:
+            try:
+                validated_email = mail_validator(email)  # Validate email
+                send_student_email(request, sender_email, message, subject, [validated_email])
+                messages.success(request, 'Message sent successfully')
+                previous_url = request.META.get('HTTP_REFERER', 'student_profile')  # Default to 'student_profile' if no referer
+                return redirect(previous_url)
+            except ValidationError as e:
+                messages.error(request, 'Message not sent', text=str(e))
         else:
             messages.error(request, 'Please fill in all fields.')
 
-    return render(request, 'blog/contact.html')
 
 
-def send_welcome_email(request, name, email, message):
+def send_student_email(request, sender_email, message, subject, recipient_list):
     try:
         send_mail(
-            subject=f"New contact message from {name}",
+            subject=subject,
             message=message,
-            from_email= email,  # Email of the customer
-            recipient_list=['queency96@gmail.com', 'hilsoniyke@gmail.com', 'lenzboivick@gmail.com'],  # Corrected to a list
+            from_email=sender_email, 
+            recipient_list=recipient_list, 
             fail_silently=False,
         )
     except Exception as e:

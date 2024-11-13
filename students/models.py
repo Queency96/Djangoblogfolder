@@ -1,4 +1,12 @@
 from django.db import models
+from django.core.exceptions import ValidationError
+
+
+def mail_validator(value):
+    if '@' and '.com' in value:
+        return value
+    else:
+        raise ValidationError('Invalid email address')
 
 
 student_position = {
@@ -16,6 +24,8 @@ class Student(models.Model):
   last_name = models.CharField(max_length=100)
   student_type = models.CharField(max_length=9, choices=student_position, default='Student')
   status = models.BooleanField(default=True)
+  email = models.EmailField(max_length=254, unique=True, validators=[mail_validator])
+  phone = models.IntegerField(null=False, blank=False)
   
   def __str__(self):
     return f"{self.first_name} {self.last_name}"

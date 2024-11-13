@@ -1,146 +1,233 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Student Exam Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="{% static 'CSS/list.css' %}">
-</head>
-<body>
-
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="{% static 'CSS/list.css' %}" />
+  </head>
+  <body>
     <!-- Header Section -->
     <header class="bg-info text-white py-4 text-center">
-        <h1>Welcome to the Exam Portal</h1>
-        <p>Your one-stop solution for managing exams and scores.</p>
+      <h1>Welcome to the Exam Portal</h1>
+      <p>Your one-stop solution for managing exams and scores.</p>
     </header>
 
     <section class="filter-section py-3 bg-light">
-        <div class="container text-end">
-            <!-- Button to trigger modal -->
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">Add Now</button>
-        </div>
+      <div class="container text-end">
+        <!-- Button to trigger modal -->
+        <button
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#addUserModal">
+          Add Now
+        </button>
+      </div>
     </section>
 
     <section class="container mt-1 mb-5">
-        <!-- Table -->
-        <div class="table-responsive">
-            <table class="table align-middle table-bordered table-hover mt-4">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Profile</th>
-                        <th>Full Name</th>
-                        <th>Cohort</th>
-                        <th>Program</th>
-                        <th>Status</th>
-                        <th>Date Joined</th>
-                        <th>Rating</th>
-                        <th>Position</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for student in students %}              
-                    <tr> 
-                        <td><img src="{{student.student_profile.profile_picture.url}}" alt="Profile" width="80" height="80" class="rounded-circle"></td>
-                        <td>{{student.first_name}} {{student.last_name}}</td>
-                        {% for cohort in student.cohort_group_set.all %}
-                        <td>{{cohort.name}}</td>
-                        {% endfor %}
-                        {% for course in student.program_set.all %}
-                        <td>{{course.courses}}</td>
-                        {% endfor %}
-                        <td><span class="badge bg-success text-white">{{student.status|yesno:"Active,Inactive"}}</span></td>
+      <!-- Table -->
+      <div class="table-responsive">
+        <table class="table align-middle table-bordered table-hover mt-4">
+          <thead class="table-dark">
+            {% if students %}
+            <tr>
+              <th>Profile</th>
+              <th>Full Name</th>
+              <th>Cohort</th>
+              <th>Program</th>
+              <th>Status</th>
+              <th>Date Joined</th>
+              <th>Rating</th>
+              <th>Position</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for student in students %}
+            <tr>
+              <td>
+                <img
+                  src="{{student.student_profile.profile_picture.url}}"
+                  alt="Profile"
+                  width="80"
+                  height="80"
+                  class="rounded-circle" />
+              </td>
+              <td>{{student.first_name}} {{student.last_name}}</td>
+              {% for cohort in student.cohort_group_set.all %}
+              <td>{{cohort.name}}</td>
+              {% endfor %} {% for course in student.program_set.all %}
+              <td>{{course.courses}}</td>
+              {% endfor %}
+              <td>
+                <span class="badge bg-success text-white"
+                  >{{student.status|yesno:"Active,Inactive"}}</span
+                >
+              </td>
 
-                        <td>{{student.student_profile.date_join|date:"Y-d-m"}}</td>
-                        <td>{{student.student_profile.rating}}</td>
-                        <td>{{student.student_type}}</td>
-                        <td>
-                            <a href="{% url 'student_profile' student.id %}" target="_blank" class="btn btn-sm btn-outline-primary">
-                                <i class="fas fa-eye"></i> View
-                            </a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                    <!-- Add more rows as needed -->
-                </tbody>
-            </table>
-        </div>
+              <td>{{student.student_profile.date_join|date:"Y-d-m"}}</td>
+              <td>{{student.student_profile.rating}}</td>
+              <td>{{student.student_type}}</td>
+              <td>
+                <a
+                  href="{% url 'student_profile' student.id %}"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary">
+                  <i class="fas fa-eye"></i> View
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+            <!-- Add more rows as needed -->
+          </tbody>
+          {% else %}
+          <header class="text-danger py-4 text-center">
+            <h1>No students' record available</h1>
+          </header>
+          {% endif %}
+        </table>
+      </div>
 
-        <div class="pagination float-end">
-            <span class="step-links">
-                {% if students.has_previous %}
-                    <a href="?page=1" class="ms-2 me-2 text-decoration-none"><i class="bi bi-skip-backward-fill"></i></a>
-                    <a href="?page={{ students.previous_page_number }}" class="ms-2 me-2 text-decoration-none"><i class="bi bi-skip-start-fill"></i></a>
-                {% endif %}
-        
-                <span class="current ms-2 me-2" >
-                    Page <b class="text-primary me-2">{{ students.number }}</b> of <b class="text-primary ms-2">{{ students.paginator.num_pages }}</b>
-                </span>
-        
-                {% if students.has_next %}
-                    <a href="?page={{ students.next_page_number }}" class="ms-2 me-2 text-decoration-none"><i class="bi bi-skip-end-fill"></i></a>
-                    <a href="?page={{ students.paginator.num_pages }}" class="ms-2 me-2 text-decoration-none"><i class="bi bi-skip-forward-fill"></i></a>
-                {% endif %}
-            </span>
-        </div>
+      <div class="pagination float-end">
+        <span class="step-links">
+          {% if students.has_previous %}
+          <a href="?page=1" class="ms-2 me-2 text-decoration-none"
+            ><i class="bi bi-skip-backward-fill"></i
+          ></a>
+          <a
+            href="?page={{ students.previous_page_number }}"
+            class="ms-2 me-2 text-decoration-none"
+            ><i class="bi bi-skip-start-fill"></i
+          ></a>
+          {% endif %}
 
+          <span class="current ms-2 me-2">
+            Page <b class="text-primary me-2">{{ students.number }}</b> of
+            <b class="text-primary ms-2">{{ students.paginator.num_pages }}</b>
+          </span>
+
+          {% if students.has_next %}
+          <a
+            href="?page={{ students.next_page_number }}"
+            class="ms-2 me-2 text-decoration-none"
+            ><i class="bi bi-skip-end-fill"></i
+          ></a>
+          <a
+            href="?page={{ students.paginator.num_pages }}"
+            class="ms-2 me-2 text-decoration-none"
+            ><i class="bi bi-skip-forward-fill"></i
+          ></a>
+          {% endif %}
+        </span>
+      </div>
     </section>
 
     <!-- Add User Modal -->
-    <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addUserModalLabel">Add New User</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Add User Form -->
-                    <form action="/submit-user" method="post">
-                        <div class="mb-3">
-                            <label for="profileImage" class="form-label">Profile Image URL</label>
-                            <input type="text" class="form-control" id="profileImage" name="profileImage" placeholder="Enter Profile Image URL">
-                        </div>
-                        <div class="mb-3">
-                            <label for="fullName" class="form-label">Full Name</label>
-                            <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Enter Full Name">
-                        </div>
-                        <div class="mb-3">
-                            <label for="cohort" class="form-label">Cohort</label>
-                            <input type="text" class="form-control" id="cohort" name="cohort" placeholder="Enter Cohort">
-                        </div>
-                        <div class="mb-3">
-                            <label for="program" class="form-label">Program</label>
-                            <input type="text" class="form-control" id="program" name="program" placeholder="Enter Program">
-                        </div>
-                        <div class="mb-3">
-                            <label for="status" class="form-label">Status</label>
-                            <select class="form-select" id="status" name="status">
-                                <option value="online">Online Exam</option>
-                                <option value="class">Class Exam</option>
-                                <option value="missed">Missed Exam</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="dateJoined" class="form-label">Date Joined</label>
-                            <input type="date" class="form-control" id="dateJoined" name="dateJoined">
-                        </div>
-                        <div class="mb-3">
-                            <label for="rating" class="form-label">Rating</label>
-                            <input type="number" class="form-control" id="rating" name="rating" placeholder="Enter Rating" min="1" max="5">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Add User</button>
-                    </form>
-                </div>
-            </div>
+    <div
+      class="modal fade"
+      id="addUserModal"
+      tabindex="-1"
+      aria-labelledby="addUserModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addUserModalLabel">Add New User</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <!-- Add User Form -->
+            <form action="/submit-user" method="post">
+              <div class="mb-3">
+                <label for="profileImage" class="form-label"
+                  >Profile Image URL</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="profileImage"
+                  name="profileImage"
+                  placeholder="Enter Profile Image URL" />
+              </div>
+              <div class="mb-3">
+                <label for="fullName" class="form-label">Full Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="fullName"
+                  name="fullName"
+                  placeholder="Enter Full Name" />
+              </div>
+              <div class="mb-3">
+                <label for="cohort" class="form-label">Cohort</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="cohort"
+                  name="cohort"
+                  placeholder="Enter Cohort" />
+              </div>
+              <div class="mb-3">
+                <label for="program" class="form-label">Program</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="program"
+                  name="program"
+                  placeholder="Enter Program" />
+              </div>
+              <div class="mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select class="form-select" id="status" name="status">
+                  <option value="online">Online Exam</option>
+                  <option value="class">Class Exam</option>
+                  <option value="missed">Missed Exam</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="dateJoined" class="form-label">Date Joined</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="dateJoined"
+                  name="dateJoined" />
+              </div>
+              <div class="mb-3">
+                <label for="rating" class="form-label">Rating</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="rating"
+                  name="rating"
+                  placeholder="Enter Rating"
+                  min="1"
+                  max="5" />
+              </div>
+              <button type="submit" class="btn btn-primary">Add User</button>
+            </form>
+          </div>
         </div>
+      </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+  </body>
 </html>

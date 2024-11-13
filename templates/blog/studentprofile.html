@@ -1,15 +1,16 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ student.username }}'s Profile</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <link rel="stylesheet" href="{% static 'CSS/profile.css' %}">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ student.username }}'s Profile</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.14.5/sweetalert2.all.js" integrity="sha512-AbjPD2rIZFzBugvnJKl8IZmGWWmjmZrYysHZaryYg0+XkoqDpmuKKRxDfVPCaHzf1SB3cwSKkgeEd7xLOmBusQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <link rel="stylesheet" href="{% static 'CSS/profile.css' %}">
 </head>
 <body>
 
@@ -111,74 +112,92 @@
             </div>
         </div>
     </section>
-  
-    <!-- Modal -->
+
+
+    <!--Message Modal -->
     <div class="modal modal-dialog-scrollable" data-bs-backdrop="static" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-primary">
-            <h1 class="modal-title fs-5 text-white" id="exampleModalLabel">Message</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h1 class="modal-title fs-5 text-white" id="exampleModalLabel">Message</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'message' student_id=student.id %}" method="POST">
+                        {% csrf_token %}
+                        <div class="col-12 d-flex justify-content-center">
+                            <p class="form-label text-bg-primary rounded px-2 py-1">RECEIVER'S INFO</p>
+                        </div>
+                        <div class="mb-3 d-flex justify-content-between flex-row gap-2">
+                            <div class="col-6">
+                                <label for="receiver_name" class="">Name</label>
+                                <input type="text" class="form-control" id="receiver_name" name="receiver_name" value="{{student.first_name}} {{student.last_name}}">
+                            </div>
+                            <div class="col-6">
+                                <label for="receiver_username" class="">Username</label>
+                                <input type="tel" class="form-control" id="receiver_username" name="receiver_username" value="{{student.username}}">
+                            </div>
+                        </div>
+    
+                        <div class="mb-3 d-flex justify-content-between gap-2">
+                            <div class="col-6">
+                                <label for="receiver_email" class="">E-mail</label>
+                                <input type="text" class="form-control" id="receiver_email" name="receiver_email" value="{{student.email}}">
+                            </div>
+                            <div class="col-6">
+                                <label for="receiver_phone" class="">Phone</label>
+                                <input type="tel" class="form-control" id="receiver_phone" name="receiver_phone" value="{{student.phone}}">
+                            </div>
+                        </div>
+    
+                        <div class="mb-3">
+                            <label for="subject" class="">Subject</label>
+                            <input type="text" class="form-control mb-3" id="subject" name="subject" placeholder="Enter subject">
+                            <label for="message" class="">Message</label>
+                            <textarea class="form-control" id="message" name="message" placeholder="Message here..."></textarea>
+                        </div>
+                        <div class="col-12 d-flex justify-content-center">
+                            <p class="form-label text-bg-primary rounded px-2 py-1">SENDER'S INFO</p>
+                        </div>
+    
+                        <div class="mb-3 d-flex justify-content-between flex-row gap-2">
+                            <div class="col-6">
+                                <label for="sender_name" class="">Name</label>
+                                <input type="text" class="form-control" id="sender_name" name="sender_name" placeholder="Enter your name">
+                            </div>
+                            <div class="col-6">
+                                <label for="sender_phone" class="">Phone</label>
+                                <input type="tel" class="form-control" id="sender_phone" name="sender_phone" placeholder="Enter phone No">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="sender_email" class="">Email</label>
+                            <input type="email" class="form-control mb-3" id="sender_email" name="sender_email" placeholder="Enter Email">
+                        </div>
+    
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Send message</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="modal-body">
-                <form action="">
-                    <div class="col-12 d-flex justify-content-center">
-                        <p class="form-label text-bg-primary rounded px-2 py-1">RECEIVER'S INFO</p>
-                    </div>
-                    <div class="mb-3 d-flex justify-content-between flex-row gap-2">
-                        <div class="col-6">
-                            <label for="recever_name" class="">Name</label>
-                            <input type="text" class="form-control" id="recever_name" name="recever_name" value="Da'Guy Olami">
-                        </div>
-                        <div class="col-6">
-                            <label for="recever_username" class="">Username</label>
-                            <input type="tel" class="form-control" id="recever_username" name="recever_username" value="Queency96">
-                        </div>
-                    </div>
-
-                    <div class="mb-3 d-flex justify-content-between gap-2">
-                        <div class="col-6">
-                            <label for="sender_email" class="form-label">E-mail</label>
-                        <input type="text" class="form-control" id="sender_email" name="sender_email" value="queency96@gmail.com">
-                        </div>
-                        <div class="col-6">
-                            <label for="phone" class="form-label">Phone</label>
-                        <input type="tel" class="form-control" id="phone" name="phone" value="08023956084">
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="subject" class="form-label">Subject</label>
-                        <input type="text" class="form-control my-2" id="subject" name="subject" placeholder="Enter subject">
-                        <label for="message" class="form-label">Message</label>
-                        <textarea class="form-control" id="message" name="message" id="message" placeholder="Message here..."></textarea>
-                    </div>
-                    <div class="col-12 d-flex justify-content-center">
-                        <p class="form-label text-bg-primary rounded px-2 py-1">SENDER'S INFO</p>
-                    </div>
-
-                    <div class="mb-3 d-flex justify-content-between flex-row gap-2">
-                        <div class="col-6">
-                            <label for="sender_name" class="">Name</label>
-                            <input type="text" class="form-control" id="sender_name" name="sender_name" placeholder="Enter your name">
-                        </div>
-                        <div class="col-6">
-                            <label for="sender_phone" class="">Phone</label>
-                            <input type="tel" class="form-control" id="sender_phone" name="sender_phone" placeholder="Enter phone No">
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Send message</button>
-            </div>
-        </div>
         </div>
     </div>
-
+    
+    
+    <script>
+        {% for message in messages %}
+            swal.fire({
+                icon: "{{message.tags}}",
+                title:"{{message}}",
+                text:"{{message.tags}}",
+                timer: 3000
+            })
+        {% endfor %}
+    </script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76Aq5F4fuzKJ1Ra0J6e06hA4b4xX1Jb3Dg4xmnD//jjh6Iq4M6y3eRZjjhxV8Z" crossorigin="anonymous"></script>   
 </body>
 </html>
