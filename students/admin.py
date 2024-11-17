@@ -4,7 +4,7 @@ from . import models
 # Register your models here.
 @admin.register(models.Student)
 class StudentAdmin(admin.ModelAdmin):
-  list_display = ['username', 'first_name', 'last_name', 'status', 'student_type', 'phone', 'email']
+  list_display = ['username', 'first_name', 'last_name', 'status', 'student_type', 'phone', 'email', 'slug']
 
 @admin.register(models.Student_Profile)
 class StudentProfileAdmin(admin.ModelAdmin):

@@ -25,22 +25,18 @@ def student_list(request):
     return render(request, 'blog/studentlist.html', context)
 
 
-def get_profile_from_student(request, student_id):   
-    student = get_object_or_404(Student, id=student_id)  
+def get_profile_from_student(request, slug):   
+    student = get_object_or_404(Student, slug=slug)  
     context = {
         'student': student
     }
     return render(request, 'blog/studentprofile.html', context)
 
 
-def message(request, student_id):
-    student = get_object_or_404(Student, id=student_id)
+def message(request):
     if request.method == 'POST':
-        # receiver's data
-        name = request.POST.get('receiver_name')
-        username = request.POST.get('receiver_username')
+        # receiver's E-mail data
         email = request.POST.get('receiver_email')
-        phone_number = request.POST.get('receiver_phone')
         
         # Messages
         subject = request.POST.get('subject')
@@ -59,19 +55,22 @@ def message(request, student_id):
         From: {sender_name},                Phone: {sender_phone}
         E-mail: {sender_email}
         """
+        # setting up variable for previous url
+        previous_url = request.META.get('HTTP_REFERER', 'student_profile')  # Default to 'student_profile' if no referer
         
         # Check if all fields are filled
-        if name and username and email and phone_number and sender_name and sender_phone and sender_email and pre_message:
+        if email and sender_name and sender_phone and sender_email and pre_message:
             try:
                 validated_email = mail_validator(email)  # Validate email
                 send_student_email(request, sender_email, message, subject, [validated_email])
                 messages.success(request, 'Message sent successfully')
-                previous_url = request.META.get('HTTP_REFERER', 'student_profile')  # Default to 'student_profile' if no referer
                 return redirect(previous_url)
             except ValidationError as e:
                 messages.error(request, 'Message not sent', text=str(e))
+                return redirect(previous_url)
         else:
-            messages.error(request, 'Please fill in all fields.')
+            messages.error(request, 'Do you fill all fields?')
+            return redirect(previous_url)
 
 
 
