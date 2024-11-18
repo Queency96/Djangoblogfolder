@@ -53,20 +53,29 @@
               <th>Date Joined</th>
               <th>Rating</th>
               <th>Position</th>
-              <th>View</th>
               <th>Actions</th>
+              <th>View</th>
             </tr>
           </thead>
           <tbody>
             {% for student in students %}
             <tr>
               <td>
+                {% if student.student_profile %}
                 <img
-                  src="{{student.student_profile.profile_picture.url}}"
-                  alt="Profile"
-                  width="80"
-                  height="80"
-                  class="rounded-circle" />
+                src="{{student.student_profile.profile_picture.url}}"
+                alt="Profile"
+                width="80"
+                height="80"
+                class="rounded-circle" />
+                {% else %}
+                <img
+                src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAMAAzAMBEQACEQEDEQH/xAAcAAEBAQADAQEBAAAAAAAAAAAAAQIEBQYHAwj/xAA8EAACAQMBBAYGCgEEAwAAAAAAAQIDBBEFBhIhMQciQVFTkxZhcYGRoRMUIzJCUmKCsdHBcpKi8QgXQ//EABoBAQACAwEAAAAAAAAAAAAAAAABBAIDBQb/xAAxEQEAAQMCBQIFAwQDAQAAAAAAAQIDEQRREhUhMaEFMhMiQZGxI2GBccHR8BQz4Qb/2gAMAwEAAhEDEQA/APsoAAAAAAAFwBcAMAXADADADADAEaAYAmAIAAAAAAAAAAAAAABUBcAXADAFwAA/K6ube0ourdVqdGmucqklFAdbabUbPXtV0rTWbGrUXOMa6A7bei8daPW5cVxAvDLXaufqAYAmAGAJgCYAgAAAAAAAAAAAqQFSAqAoFwBxdT1Gy0qxqXmo3NK2tqf3qtV4iu73vuA+ObYdMF5Wu40dk39BbRT37i4oJyqP9Kb4R9qTA+fa/tFq+0VSEtavZ3P0axGMsKK4/lXDPrIHVShGXCST9qA5EL28juuF5cxcPu/bS4fMDudG202j0WrUqWGp1ftJqdSNb7SM3jHFP1Ej7jsv0g6PqWztrqOr39lp1zUcqdSlWrxit6Lw8ZfJ8wPUaff2Wp20bnTrqjdUJPCq0ZqUW/agORgCYAgEaAgAAAAAAAAC4A0kBUBUBUgOLqmoWmlafX1DUKyo2tvBzqzfHCXqXFvlhAfzbt7tld7Xam6ks09Poyf1W3zyX5n+p/JMgeYAAAAABhZzhbz5sD3OwXSPfbNVbay1Co6+ixe5Km49a3j+aLS445tdvEkf0TGUZxU4SUoSWYyi8pp9qAAQCAZaAgAAAAAAKBUgNAVAVICpcAPlnT9qkqGhadpVOTi724dSp+qFPDx/ulB/tA+HLiQJKUYfflGPdl4AufgAAAAAB8Vjh3Af050Y3kr7YLRqs3mUKH0T9kG4r5JEj0+AIBAIwM4AgAAAAAa7AKkBoCpAVICgfA+nq6dba+1tsvdt7GOF3OUpN/JR+BA8BplhW1TU7TT7Zfa3NWNOPqz2+5cfcRM4jKYjM4f0Toey+j6JYRtLWxoS6uKtWpSjKdV98m18uRVqqmZytRREOvvujzZa9qOrLS4UJvn9Vm6a/wBq4L3ImLlUIm3TL8rXo12Ut5bz0+dZ91avJr4LBPxKkfDpdlU2N2ZqUnSez+mKL7Y20YyX7kk/mY8dW7Lgp2can0f7J022tEoSb/POcv5kT8SpHw6XntrejDTa9jVuNnaUrW+pxco0IzbhW/TxeU+55M6Ls5xLCq1H0fGezk0+580b2h/QvQdUdTYOCbzuXVaK9Syv7JH0ADOAIBGgMtAQABAAFQGscAKgNICpAUCgfzl01N/+wLvPgUUvZu/9kDndC2iq61e61mrHMLOP0NDPizXWftUOH7/Uars9MNtqnM5fZSusAAAAAdq/oD+d+kXT46btlqVKMd2FaauIL1TWX/y3i1ROaVWuMS+09C9r9X2Bs5P/AO9WrV+Msf4NjB7kCYAzgCARgZYEAgADSAq5AaA0gKgKBQP536cofR7eTk1wnZ0pL/kv8ED6T0dadDTdjdMpwWJVaX09R985cWVbk5qWqIxS9IYMwAAAAAPivTZSjDaayqJLeq2mJftlw/llm17Va73fWuiuEqfR7oqlwzRlL3Ocmvkza1vVAQCAQDOOIEaAywIBQKgNAaQGkBUAAoHxP/yG0zFxperU+U4TtKrzya68P5qfBEZjJicPebKyU9mNLlHgnaweF7EU6u63T7XakMgAAAAAPkfTjYVZXuk3VGLnOrGdCMEsuU8ppe8sWZ6TDRdjrD7VoljDTNHstPpTU4WtCFFS792KWfkbc57NPVzSRGBGBlgQDLAyBAKgNIDSAqA0gKgKAA8J0k2FLUdkdapV477p0Z1oPtU4LeT+S9zKsTi4sTGbbttLpxo6ZaUoxUYxoQSS7OqjCe7ZHZyiEgAAAAAef2i06Oo65s59JGMoWt1VuOss8Y0+r8JOL9xnTOIlhVGaoev03LpyzwjngjbZ7NV3u5huakAgEYGWBkCAZAqA0gNAaQFQFQFQBAdNrlrG5p3FvLChXpOD9/Aq3Olaxb604fjQg6VvSpyeZQhGLffhYMJbH6EJAAAAAAxOlCVWFWUczpqSi+7OM/wh+yP3dvZx3bePLrcfaWrcfLCtcnNT9zYwQABkCMDLAywMgVAaQGuwDSAqAoFQFA4d/RlU3JwTbXB4NN2iZ6w226ojpLgNY4PsNCwhAAAAAABunSnVfVi2uTfYjKmmapY1VRTDt4RUYKKWElgtxGIVJUkQABHyAyBlgZYGQKgNIDXYBpAVAUCoCgAOnuVu16i/UU6+lS3R7X5mLIAAAABgdhp0cUZPvZYtR8qvd9zmG5qQCAAI+QGQMsDIEAIDSA0BpAVAVAVAEBQOv1CljFVL1Mr3aPrDdaq+kuGaW8AAAAFUXKSjFcXyEdZ6ImcQ7ehBU6UYLsLlMYjCpVOZfoZIQCAAMgQDLAywMgVAaQFA0gNICoCgAKB+dws0Kixw3WY1e1MT1dHTmpxWeZRpnK7MP0yZIAAEbSXESP20yW/ePtxB/wAozszmprvZil265FtWQABAIBAIwMsDIGQKBUBoDSAqYFAoFAoH5XD3aFRv8rMa/amn3Q84m0c50H7U63ZL4mcVMZh+u8u9GWYYpKcUuZEzEJiMvwnUlJ+pGGUxDl6Pwu3/AKH/ACjdp/e1X/a7kuKoAAjAgGcgRgZYGQIAA0gKuQGkBpAVAVAUAB1+o3lNU5UYdaUk02nyK967GMQ32rczOZdQVFoAAAAH7Wlb6vXjUxlcU1nmjO3VwTlhXTxxh3tGvTrQU6csp/IvU1RVGYUqqZp6S/QyQgEAgEAzniBGwMsCAAKgNZ4AVMDSYFyBJVIwjvTlGMe+TwhETPZEzEdZdTPafSVcxt6d3CrVk8JU+Kb7t7l8zdXpr9Fubk0TiPurUa3T13YtRXGf9+rNxqFatmMfs4+p8fecuu/VM4jo6tNmI6y4nbk1NwAAAAAADVKpOlPfpycZeommqaezGqmKo6uZU16haUXVv2qcF+Jcflz+Bd083L1UUU05lS1Pw7FE3KqsRDk6frOn6jFOzu6VSXbBPEl7nxLVyxdt++nCra1Vm97KolzXLhk1LCZAjAjAywIBAAADSA0B1eqbRabpTcbm4jKoudKn1pL293vLNnSXr3thTv6+xY6V1ddoeT1Lbu7rZjp9CFCPZOfWl/R07XpdEf8AZOXFvet3KulqnDzF9qF5fy3ry5qVvVKXBe7kdC3at24xRDkXtRdvT+pVMuKnh57TZiGmKpjs9Rou0W5GNDUH1Uko1e72nn9f6RxfPY77PVemeuY/T1H3/wAvTxnGcFODUovk08pnnaqZpnEx/wCfw9RTVFUZjr/dSGQAAAAAQ4epalbadT3q8szazGnH70i1pNHd1M/JHT6yp6zX2NHTxXJ67fWXidU1OvqNbeqvEF92C5I9fpNFb0tOKO/1nd4fXeoXtXXmvtHaHCTaaa5rk+4tYhQ4pdzp21GrWGFC5daC/BW63D28ypc0VmvrMY/o6Fj1PU2unFmP3er03bq0rNQ1CjK3k/xwW9H+zm3fTLlMZonLs2PWrVfS5HDL09rdULykqtrWp14P8VOWUc6uiqieGqMS69u5Rcp4qJzDecoxZoBAAAABJzVOEpzaUYrLb7EIjM4hEzERmXzjaHay8vqtSjZ1ZULRNxW48Sn7X/g9DpdBRbjiq6z+HlNb6pduzNNucU/l5o6DkZXIQgAAngGXO0/VbrTpr6Gp1O2nLjF/0U9TorOpj5467x3dDSeo39JP6c9Np7PTWO01pXwriMqMn284nA1Hot631tzxR5en0vr+nudLvyz4+7taF3b3CToV6c88sSOZcsXrXvpmP4de3qbN2M0VRP8ALkJN9hozG7f/AEZnKMFmclFd7eCYiaukImYp6zLg3Os6fbJ79zCT7oPeZdtenaq77aPuo3vU9JZj5q/s6LUNqKs47ljT+jT/ABzWX7kdjTei0UzxXpz+zgav/wCguVxw2Ix+/wBXnqtSdSo51JSnOXFyk8tndppimMRGHnLlyquriqnMsPiZNYAAEDkWV7c2NdVrSvOjU74vg/auTMLlui5Tw1xmG6xfu2auK3OH0bZXaJ6vTlRuVCN1TWXjgprvx3nA1uk+BOaez1fp2v8A+TTNNXujy78oumAAAADzO3uoO00lW1OWKl1Ld/YuL/wvedD06zx3eKfp+XI9Y1Hw7HBHer8fX/D5znhjsPQPJISAAAAAAAZE2nlPiExMx2bVWouU5fExmmme8Mvi17yjnJ85N+8mIiOyJrqnvLJLEAAAAAAAA52i6hLTNSoXSb3IS+0ivxR7V8Png0aizF21NErWj1E2L1Nf+4fXoyUopqSkmsprtPKzmOkvcxMTGYUJAAD2gfNdu7t3GuSpJ9WhCMF7eb/nHuPQ+m2+GxFW/V5H1m7x6nh2jH93nDoOSAAAAAAAAAAAAAAAAAAAAAIiUw+q7I3X1vZ+1k3mdJOlJ/6eC+WDzWut8Goq+/3e09Mu/F0tM7dPs7gqL4AAAdHc7KaVdV6letTqyqVJOUn9LLiy5Rr71FMU0z0c+56ZprlU1VR1nr3fl6GaL4NXzZGXMb+/hhyjSbfk9DNF8Gr5shzG/v4OUaTb8qtjNF8Gr5shzK/v4OUaTafJ6GaL4NXzZDmV/fwco0m0+VWxmi+DV82Q5jf38HKNJtPk9C9F8Gr5shzG/v4OUaTafJ6FaJ4NXzZDmN/fwco0m0+V9CtE8Kr5shzG/v4OUaTafJ6FaJ4VXzZDmN/fwco0m0+T0K0TwqvmyHMb+/g5RpNp8noVong1fNkOY39/ByjSbT5PQrRPBq+bIcxv7+DlGk2nyPYrRPCq+bIcxv7+DlGk2nynoXovg1fNkOY39/ByjSbT5PQvRfBq+bIcxv7+DlGk2nyehei+DV82Q5jf38HKNJtPlPQzRfBq+bIcyv7+DlGk2nynoZovg1fNkOY39/ByjSbfk9DNF8Gr5shzG/v4OUaTb8noZovg1fNkOY35+vg5Rpdp8u00vS7bSqU6NnvqE3vNSk3x5Fe9frvVcVS3p9Nb09PDb7OaaVgAAAAAAAAoDIDIFyBcgMgOIDIDIEbAZAmQAEAAAAAAAA//2Q=="
+                alt="Profile"
+                width="80"
+                height="80"
+                class="rounded-circle" />
+                {% endif %}
               </td>
               <td>{{student.first_name}} {{student.last_name}}</td>
               {% for cohort in student.cohort_group_set.all %}
@@ -80,9 +89,11 @@
               <td>No Program</td>
               {% endfor %}
               <td>
-                <span class="badge bg-success text-white"
-                  >{{student.status|yesno:"Active,Inactive"}}</span
-                >
+                {% if student.status %}
+                <span class="badge bg-success text-white">{{student.status|yesno:"Active,Inactive"}}</span>
+                {% else %}
+                <span class="badge bg-danger text-white">{{student.status|yesno:"Active,Inactive"}}</span>
+                {% endif %}
               </td>
 
               <td>{{student.student_profile.date_join|date:"Y-d-m"}}</td>
@@ -96,22 +107,22 @@
               <td>{{student.student_type}}</td>
               <td>
                 <a
-                  href="{% url 'student_profile' student.slug %}"
-                  target="_blank"
-                  class="btn btn-sm btn-outline-primary">
-                  <i class="fas fa-eye"></i> View
-                </a>
-              </td>
-              <td>
-                <a
                 href=""
                 class="text-success m-2">
                 <i class="fas fa-edit"></i>
-              </a>
+                </a>
                 <a
                   href="{% url 'del_student' student.pk %}"
                   class="text-danger m-2">
                   <i class="fas fa-trash"></i>
+                </a>
+              </td>
+              <td>
+                <a
+                  href="{% url 'student_profile' student.slug %}"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary">
+                  <i class="fas fa-eye"></i> View
                 </a>
               </td>
             </tr>
