@@ -12,7 +12,6 @@ def mail_validator(value):
     else:
         raise ValidationError('Invalid email address')
 
-
 def student_list(request):   
     student_list = Student.objects.all()
     paginator = Paginator(student_list, 3)
@@ -24,14 +23,12 @@ def student_list(request):
     }
     return render(request, 'blog/studentlist.html', context)
 
-
 def get_profile_from_student(request, slug):   
     student = get_object_or_404(Student, slug=slug)  
     context = {
         'student': student
     }
     return render(request, 'blog/studentprofile.html', context)
-
 
 def message(request):
     if request.method == 'POST':
@@ -72,6 +69,39 @@ def message(request):
             messages.error(request, 'Do you fill all fields?')
             return redirect(previous_url)
 
+def del_student(request, pk):
+    student = get_object_or_404(Student, pk=pk)
+    
+    previous_url = request.META.get('HTTP_REFERER', 'student_list') 
+    
+    student.delete()
+    return redirect(previous_url)
+
+def create_student(request):
+    if request.method == 'POST':
+        # Student model inputs
+        username = request.POST.get('username'),
+        first_name = request.POST.get('first_name'),
+        last_name = request.POST.get(),
+        student_type = request.POST.get(),
+        status = request.POST.get(),
+        email = request.POST.get(),
+        phone = request.POST.get(),
+        
+        # Student profile inputs
+        bio = request.POST.get(),
+        DOB = request.POST.get(),
+        address = request.POST.get(),
+        rating = request.POST.get(),
+        profile_picture = request.FILE.get('profileImage'),
+        date_join = request.POST.get(),
+        
+        # Student course input
+        course = request.POST.get(),
+        
+        # Student cohort group input
+        cohort = request.POST.get(),
+        date_join = request.POST.get(),
 
 
 def send_student_email(request, sender_email, message, subject, recipient_list):
