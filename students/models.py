@@ -13,8 +13,8 @@ def mail_validator(value):
 
 student_position = {
   ('Leader', 'Cohort Leader'),
-  ('President', 'Student President'),
-  ('Vice', 'Vice Student President'),
+  ('President', 'President'),
+  ('Vice', 'Vice President'),
   ('Secretary', 'Secretary'),
   ('Student', 'Student'),
 }
@@ -27,7 +27,7 @@ class Student(models.Model):
   student_type = models.CharField(max_length=9, choices=student_position, default='Student')
   status = models.BooleanField(default=True)
   email = models.EmailField(max_length=254, unique=True, validators=[mail_validator])
-  phone = models.IntegerField(null=False, blank=False)
+  phone = models.CharField(max_length=11, null=True, blank=True)
   slug = models.SlugField(unique=True, blank=True, editable=False)
   
   def __str__(self):

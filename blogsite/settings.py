@@ -149,6 +149,3 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'student_profile'
 
 
-# possible options: 'sweetalert', 'sweetalert2' - default is 'sweetalert2'
-# SWEETIFY_SWEETALERT_LIBRARY = 'sweetalert'
-# SWEETIFY_ALERT_TIMEOUT = 3000  # Timeout in milliseconds (3 seconds)
