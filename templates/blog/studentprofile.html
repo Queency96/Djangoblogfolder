@@ -41,7 +41,7 @@
           alt="{{ student.first_name }} {{ student.last_name }}'s Profile Picture"
           class="profile-picture" />
         {% endif %}
-        <h1>{{ student.first_name |default:'Unknow' }} {{ student.last_name |default:'User' }}</h1>
+        <h1>{{ student.first_name |default:'Unknow' }} {{ student.last_name |default:'Unkwon' }}</h1>
         <p>
           {{ student.status|yesno:"Active,Inactive" }} | {% if student.cohort_group_set.exists %}
           {% for cohort in student.cohort_group_set.all %}
@@ -52,9 +52,19 @@
         {% endif %}
         
         <p>{{type}}</p>
-        <span class="badge badge-custom"
-          >{{ student.student_profile.rating|default:'0.0' }} Rating</span
-        >
+        {% if student.student_profile.rating <= 3 %}
+        <span class="badge badge-custom bg-danger">
+          {{ student.student_profile.rating|default:'0.0' }} Rating
+        </span>
+        {% elif student.student_profile.rating <= 5 %}
+        <span class="badge badge-custom bg-warning">
+          {{ student.student_profile.rating|default:'0.0' }} Rating
+        </span>
+        {% else %}
+        <span class="badge badge-custom bg-success">
+          {{ student.student_profile.rating|default:'0.0' }} Rating
+        </span>
+        {% endif %}
       </div>
     </section>
 
