@@ -117,7 +117,7 @@
               <td>{{student.student_type}}</td>
               <td>
                 <a
-                href=""
+                href="{% url 'edit_views' student.slug %}"
                 class="text-success m-2">
                 <i class="fas fa-edit"></i>
                 </a>
@@ -147,6 +147,7 @@
         </table>
       </div>
 
+    <!-- pagination -->
       <div class="pagination float-end">
         <span class="step-links">
           {% if students.has_previous %}
@@ -318,43 +319,43 @@
       </div>
     </div>
 
-
-        <!-- Add Cohort -->
-        <div
-        class="modal fade"
-        id="addCohort"
-        tabindex="-1"
-        aria-labelledby="addCohortModal"
-        aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="addCohortModal">Add Cohort</h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <!-- Add User Form -->
-              <form action="create_cohort" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="mb-3">
-                  <label for="addcohort" class="form-label">Chort name</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="addcohort"
-                    name="addcohort"
-                    placeholder="E.g: Cohort 21" />
-                </div>
-                <button type="submit" class="btn btn-primary">Add Cohort</button>
-              </form>
-            </div>
+      <!-- Add Cohort -->
+    <div
+      class="modal fade"
+      id="addCohort"
+      tabindex="-1"
+      aria-labelledby="addCohortModal"
+      aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addCohortModal">Add Cohort</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close">
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- Add User Form -->
+            <form action="create_cohort" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="mb-3">
+                <label for="addcohort" class="form-label">Chort name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="addcohort"
+                  name="addcohort"
+                  placeholder="E.g: Cohort 21" />
+              </div>
+              <button type="submit" class="btn btn-primary">Add Cohort</button>
+            </form>
           </div>
         </div>
       </div>
+    </div>
 
     <script>
       {% for message in messages %}

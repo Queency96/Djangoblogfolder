@@ -21,7 +21,7 @@ student_position = {
 
 # Create your models here.
 class Student(models.Model):
-  username = models.CharField(max_length=100)
+  username = models.CharField(max_length=100,unique=True)
   first_name = models.CharField(max_length=100)
   last_name = models.CharField(max_length=100)
   student_type = models.CharField(max_length=9, choices=student_position, default='Student')
