@@ -32,20 +32,45 @@
     </header>
 
     <section class="filter-section py-3 bg-light">
-      <div class="container text-end">
-        <!-- Buttons to trigger modal -->
-        <button
-        class="btn btn-primary me-2"
-        data-bs-toggle="modal"
-        data-bs-target="#addCohort">
-        Add Cohort
-      </button>
-        <button
-          class="btn btn-primary"
+      <div class="container text-start">
+        
+      </div>
+      <div class="container d-flex justify-content-between align-items-center">
+        {% comment %} <div>
+          <button class="btn btn-primary rounded">Login</button>
+        </div> {% endcomment %}
+        <section class="filter-section py-3 bg-light">
+          <div class="container text-start">
+          </div>
+          <div class="container d-flex justify-content-between align-items-center">
+            {% if user.is_authenticated %}
+            <form action="{% url 'logout' %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class='btn btn-outline text-primary'>Logout</button>
+            </form> |
+            <span class="ms-2"> Signed in as <strong class="text-danger">{{user.username}}</strong></span>
+            {% else %}
+            <div>
+              <a class="nav-link text-primary" href="/login">Login</a>
+            </div>
+            {% endif %}
+          </div>
+        </section>
+        <div class="text-end">
+          <!-- Buttons to trigger modal -->
+          <button
+          class="btn btn-primary me-2"
           data-bs-toggle="modal"
-          data-bs-target="#addUserModal">
-          Add Now
+          data-bs-target="#addCohort">
+          Add Cohort
         </button>
+          <button
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#addUserModal">
+            Add Now
+          </button>
+        </div>
       </div>
     </section>
 

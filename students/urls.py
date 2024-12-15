@@ -11,5 +11,6 @@ urlpatterns = [
   path('newuser', views.create_student, name= 'newuser'),
   path('del_student/<int:pk>', views.del_student, name='del_student'),
   path('profile/<slug:slug>', views.get_profile_from_student, name='student_profile'),
-  path('message',views.message, name='message')
+  path('message',views.message, name='message'),
+  path('sign-up', views.sign_up, name='sign_up'),
 ]

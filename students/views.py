@@ -5,6 +5,9 @@ from django.core.mail import send_mail
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from datetime import datetime, date
+from .forms import RegisterForm
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
 
 # E-mail validator
 def mail_validator(value):
@@ -14,6 +17,7 @@ def mail_validator(value):
         raise ValidationError('Invalid email address')
 
 # List of student 
+@login_required(login_url='/login')
 def student_list(request):   
     student_list = Student.objects.all()
     paginator = Paginator(student_list, 3)
@@ -308,6 +312,17 @@ def edit_student(request, slug):
     else:
         messages.error(request, 'Invalid request method.')
         return redirect('student_list')
+
+def sign_up(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('/student_list')
+    else:
+        form = RegisterForm()
+    return render(request, 'registration/sign_up.html', {'form': form})
 
 # Email message instance logic
 def send_student_email(request, sender_email, message, subject, recipient_list):
